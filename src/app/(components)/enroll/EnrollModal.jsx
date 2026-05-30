@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "../../../lib/supabase";
-import PaystackPop from "@paystack/inline-js"; // top of file, safe now
+import PaystackPop from "@paystack/inline-js";
 
 const PLANS = {
   group: {
@@ -279,7 +279,7 @@ export default function EnrollModal() {
                 }}
                 className={`w-full border p-6 text-left transition`}
               >
-                <div className="flex flex-col mb-6! p-7!  bg-white justify-between md:flex-row md:items-center hover:border! hover:border-[#111c18]!">
+                <div className="flex flex-col mb-6! p-7!  bg-white justify-between md:flex-row md:items-center hover:border! hover:border-[#111c18]! cursor-pointer">
                   <div>
                     <h4 className="text-xl text-black font-serif uppercase">
                       Full Semester Remittance
@@ -303,7 +303,7 @@ export default function EnrollModal() {
                 }}
                 className={`w-full border p-6 text-left transition `}
               >
-                <div className="flex flex-col mb-10! p-7! bg-white justify-between md:flex-row md:items-center hover:border! hover:border-[#111c18]!">
+                <div className="flex flex-col mb-10! p-7! bg-white justify-between md:flex-row md:items-center hover:border! hover:border-[#111c18]!  cursor-pointer">
                   <div>
                     <h4 className="text-xl text-black font-serif uppercase">
                       Monthly Installment
