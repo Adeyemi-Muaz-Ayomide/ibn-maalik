@@ -221,7 +221,7 @@ export default function EnrollModal() {
 
         // 2. Redirect to WhatsApp after DB is saved
         window.location.href =
-          "https://wa.me/2347084605347?text=I%20just%20completed%20my%20payment%20-%20Ref:%20" +
+          "https://wa.me/2347084605347?text=Assalaam%20Alaykum%20I%20just%20completed%20my%20payment%20-%20Ref:%20" +
           transaction.reference;
       },
 
