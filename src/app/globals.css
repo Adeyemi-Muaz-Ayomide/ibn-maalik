@@ -1,0 +1,909 @@
+@import "tailwindcss";
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+/* h1 {
+  @apply font-imbue;
+}
+
+p {
+  @apply font-poppins;
+} */
+
+:root {
+  --green: #1a4d2e;
+  --green-dark: #2bd428;
+  --green-mid: #2d6a4f;
+  --green-light: #52b788;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --red: #e22222;
+  --grey: #f4f4f0;
+  --grey-mid: #d9d9d3;
+  --grey-dark: #6b6b63;
+  --white: #fdfcf8;
+  --text: #1a1a18;
+}
+
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
+* {
+  @apply box-border m-0 p-0;
+}
+html {
+  @apply scroll-smooth;
+}
+body {
+  @apply font-[poppins] overflow-x-hidden bg-(--white);
+}
+button,
+input,
+select {
+  @apply font-[inherit];
+}
+button {
+  @apply border-0;
+}
+
+/* <-----------------------------------> */
+
+nav {
+  @apply items-center backdrop-blur-md flex justify-between fixed transition-shadow duration-300 z-100 px-[5%] py-[1.2rem] border-b-[rgba(201,168,76,0.2)] border-b border-solid top-0 inset-x-0 bg-[rgba(253,252,248,0.92)];
+}
+nav.scrolled {
+  @apply shadow-[0_4px_30px_rgba(0,0,0,0.08)];
+}
+.nav-logo {
+  @apply text-(--green) text-2xl font-bold tracking-[-0.02em];
+  font-family: "Cormorant Garamond", serif;
+}
+
+.nav-links {
+  @apply flex gap-10 list-none;
+}
+.nav-links a {
+  @apply text-(--grey-dark) text-sm font-medium tracking-[0.02em] no-underline transition-[color] duration-200 hover:text-(--green);
+}
+.nav-cta {
+  @apply text-(--white) transition-[background,transform] duration-200 px-[1.4rem] py-[0.55rem] rounded-[10px] hover:-translate-y-px bg-(--green);
+}
+.nav-cta:hover {
+  @apply bg-(--green-mid)!;
+}
+.hamburger {
+  @apply cursor-pointer hidden flex-col gap-1.25 bg-transparent;
+}
+
+.hamburger span {
+  @apply block h-0.5 transition-[0.3s] w-6 rounded-sm bg-(--green);
+}
+
+/* <-----------------------------------> */
+#hero {
+  @apply items-center flex min-h-screen overflow-hidden relative pt-28 pb-20 px-[5%] bg-(--white);
+}
+.hero-pattern {
+  @apply bg-[url("data:image/svg+xml,%3Csvg_width='80'_height='80'_viewBox='0_0_80_80'_xmlns='http://www.w3.org/2000/svg'%3E%3Cg_fill='%23ffffff'_fill-opacity='1'%3E%3Cpath_d='M40_0L50_30H80L57_48L65_78L40_60L15_78L23_48L0_30H30Z'/%3E%3C/g%3E%3C/svg%3E")] bg-position-[80px] opacity-[0.06] absolute inset-0;
+}
+.hero-glow {
+  @apply h-150 pointer-events-none absolute right-[-10%] w-150 rounded-[50%] top-[10%]
+    bg-[radial-gradient(circle,rgba(201,168,76,0.15)_0%,transparent_70%)];
+}
+.hero-content {
+  @apply max-w-170 relative z-2;
+}
+
+.hero-badge {
+  @apply inline-flex items-center gap-2 mb-8 px-4 py-[0.4rem] rounded-[50px]
+    border border-(--red) bg-(--red)
+    text-(--white) text-[0.8rem] font-medium tracking-[0.08em]
+    uppercase animate-[fadeUp_0.8s_ease_both];
+}
+
+.hero-badge::before {
+  @apply animate-[pulse_2s_infinite] text-[0.5rem];
+  content: "●";
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.hero-arabic {
+  @apply mb-2 text-(--black) text-[clamp(2rem,5vw,3.5rem)]
+    leading-[1.3] animate-[fadeUp_0.8s_0.1s_ease_both];
+  font-family: "Amiri", serif;
+}
+
+.hero-title {
+  @apply mb-6 text-(--text) text-[clamp(2.8rem,7vw,5.5rem)]
+    font-bold tracking-[-0.02em] leading-[1.05]
+    animate-[fadeUp_0.8s_0.2s_ease_both];
+  font-family: "Imbue", serif;
+}
+
+.hero-title em {
+  @apply text-(--green) italic;
+}
+
+.hero-sub {
+  @apply mb-10 max-w-130 text-(--black) text-[1.1rem]
+    leading-[1.7] animate-[fadeUp_0.8s_0.3s_ease_both];
+}
+
+.hero-actions {
+  @apply flex flex-wrap gap-4 animate-[fadeUp_0.8s_0.4s_ease_both];
+}
+
+.btn-primary,
+.btn-ghost {
+  @apply inline-flex items-center gap-2 rounded-[50px] px-8 py-[0.9rem] text-base no-underline;
+}
+
+.btn-primary {
+  @apply cursor-pointer bg-(--green) text-(--white) font-semibold shadow-[0_4px_20px_green-300] transition-[transform,box-shadow] duration-200;
+}
+
+.btn-primary:hover {
+  @apply -translate-y-0.5 shadow-[0_8px_30px_green-900];
+}
+
+.btn-ghost {
+  @apply border border-(--green) bg-transparent text-(--green) font-medium transition-[border-color,background] duration-200;
+}
+
+.btn-ghost:hover {
+  @apply border-(--green) bg-[rgba(255,255,255,0.07)]
+  -translate-y-0.5 shadow-[0_8px_30px_green-900];
+}
+
+.hero-stats {
+  @apply mt-16 flex gap-12 animate-[fadeUp_0.8s_0.5s_ease_both];
+}
+
+.stat {
+  @apply border-l-2 border-(--green) pl-4;
+}
+
+.stat-num {
+  @apply text-(--black) text-3xl font-bold;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.stat-label {
+  @apply text-(--black) text-[0.8rem] tracking-wider uppercase;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.trust-bar {
+  @apply flex flex-wrap items-center justify-center gap-12 bg-(--grey) px-[5%] py-6;
+}
+
+.trust-item {
+  @apply flex items-center gap-[0.6rem] text-(--black) text-sm font-medium;
+}
+
+.trust-item svg {
+  @apply shrink-0 text-(--green);
+}
+
+/* <-----------------------------------> */
+section {
+  @apply px-[5%] py-24;
+}
+
+.section-label {
+  @apply mb-4 inline-block text-(--green-light) text-xs font-semibold
+    tracking-[0.12em] uppercase;
+}
+
+.section-title {
+  @apply mb-[1.2rem] text-(--green) text-[clamp(2rem,4vw,3rem)]
+    font-bold leading-[1.15];
+  font-family: "Cormorant Garamond", serif;
+}
+
+.section-bum {
+  @apply mt-10;
+}
+
+.section-sub {
+  @apply max-w-140 text-(--grey-dark) text-[1.05rem] leading-[1.7];
+}
+
+.centered {
+  @apply mx-auto;
+}
+
+#why {
+  @apply bg-(--white);
+}
+
+.why-grid {
+  @apply mx-auto grid max-w-275 grid-cols-2 items-center gap-20;
+}
+
+.why-cards {
+  @apply mt-8 flex flex-col gap-6;
+}
+
+.why-card,
+.level-card,
+.testi-card,
+.how-step {
+  @apply translate-y-5 opacity-0 transition-[opacity,transform] duration-[0.6s] ease-[ease];
+}
+
+.why-card.is-visible,
+.level-card.is-visible,
+.testi-card.is-visible,
+.how-step.is-visible {
+  @apply translate-y-0 opacity-100;
+}
+
+.why-card {
+  @apply flex items-start gap-[1.2rem] rounded-2xl bg-(--grey) p-6;
+}
+
+.why-card:hover {
+  @apply translate-x-1 border-(--green-light);
+}
+
+.why-icon {
+  @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl
+    bg-(--green) text-[1.2rem];
+}
+
+.why-card h4 {
+  @apply mb-[0.3rem] text-(--text) text-base font-semibold;
+}
+
+.why-card p {
+  @apply text-(--grey-dar) text-sm leading-[1.6];
+}
+
+.why-visual {
+  @apply relative overflow-hidden rounded-3xl bg-(--green) p-12;
+}
+
+.why-visual-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M30 0L37 21H60L42 34L49 55L30 42L11 55L18 34L0 21H23Z'/%3E%3C/g%3E%3C/svg%3E");
+  @apply absolute inset-0 bg-size-[60px] opacity-[0.05];
+}
+
+.why-quote {
+  @apply relative z-2 mb-6 text-center text-(--white) text-[1.8rem] leading-[1.6];
+  font-family: "Amiri", serif;
+}
+
+.why-quote-trans {
+  @apply relative z-2 text-center text-[rgba(255,255,255,0.6)] text-[0.9rem]
+    italic leading-[1.7];
+}
+
+.why-quote-src {
+  @apply relative z-2 mt-4 text-center text-(--gold) text-[0.8rem] font-semibold;
+}
+
+#levels {
+  @apply bg-(--grey);
+}
+
+.levels-header,
+.how-header,
+.pricing-header,
+.testi-header,
+.faq-header {
+  @apply text-center;
+}
+
+.levels-header {
+  @apply mb-14;
+}
+
+.levels-header .section-sub {
+  @apply mx-auto;
+}
+
+.levels-grid {
+  @apply mx-auto grid max-w-275 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] md:grid-cols-2 gap-6;
+}
+
+.level-card {
+  @apply relative overflow-hidden rounded-[20px] border border-(--grey-mid) bg-(--white) p-8 opacity-0 translate-y-6 transition-all duration-700;
+}
+
+.level-card.is-visible {
+  @apply opacity-100 translate-y-0;
+}
+
+/* .level-card:hover {
+  @apply -translate-y-1.5 shadow-[0_20px_50px_rgba(26,77,46,0.12)] duration-700;
+} */
+
+.level-card::before {
+  @apply absolute inset-x-0 top-0 h-1 bg-(--green);
+  content: "";
+}
+
+.level-card.gold::before {
+  @apply bg-(--green-dark);
+}
+
+.level-card.emerald::before {
+  @apply bg-(--green-light);
+}
+
+.level-card.deep::before {
+  @apply bg-(--green-mid);
+}
+
+.level-num {
+  @apply mb-2 text-(--grey-mid) text-[3.5rem] font-bold leading-none;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.level-badge {
+  @apply mb-4 inline-block rounded-[50px] bg-(--grey) px-[0.8rem] py-1
+    text-(--green) text-[0.7rem] font-semibold tracking-[0.08em] uppercase;
+}
+
+.level-card h3 {
+  @apply mb-2 text-(--green) text-2xl;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.level-card ul {
+  @apply space-y-4 mt-5;
+}
+
+.level-card p {
+  @apply text-(--grey-dark) text-sm leading-[1.6];
+}
+
+.level-tag {
+  @apply mt-4 inline-block text-(--green-light) text-[0.8rem] font-medium;
+}
+
+#how {
+  @apply bg-(--white);
+}
+
+.how-inner {
+  @apply mx-auto max-w-225;
+}
+
+.how-header {
+  @apply mb-16;
+}
+
+.how-steps {
+  @apply relative flex flex-col;
+}
+
+.how-steps::before {
+  @apply absolute bottom-0 top-0 left-7 w-0.5
+    bg-[linear-gradient(to_bottom,var(--green),var(--green-light))];
+  content: "";
+}
+
+.how-step {
+  @apply relative flex items-start gap-8 py-8 pl-2 pr-0;
+}
+
+.step-dot {
+  @apply relative z-2 flex h-14 w-14 shrink-0 items-center justify-center rounded-full
+    bg-(--green) text-(--white) text-[1.3rem] font-bold
+    shadow-[0_0_0_6px_var(--white)];
+  font-family: "Cormorant Garamond", serif;
+}
+
+.step-content h4 {
+  @apply mb-[0.4rem] text-(--green) text-[1.4rem];
+  font-family: "Cormorant Garamond", serif;
+}
+
+.step-content p {
+  @apply text-(--grey-dark) text-[0.95rem] leading-[1.7];
+}
+
+#pricing {
+  @apply relative overflow-hidden bg-(--green);
+}
+
+#pricing .section-title {
+  @apply text-(--white);
+}
+
+#pricing .section-label {
+  @apply text-(--gold-light);
+}
+
+#pricing .section-sub {
+  @apply text-[rgba(255,255,255,0.6)];
+}
+
+.pricing-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M40 0L50 30H80L57 48L65 78L40 60L15 78L23 48L0 30H30Z'/%3E%3C/g%3E%3C/svg%3E");
+  @apply absolute inset-0 bg-size-[80px] opacity-[0.04];
+}
+
+.pricing-header {
+  @apply relative z-2 mb-14;
+}
+
+.pricing-cards {
+  @apply relative z-2 mx-auto grid max-w-175 grid-cols-2 gap-8;
+}
+
+.price-card {
+  @apply rounded-3xl border border-[rgba(255,255,255,0.15)]
+    bg-[rgba(255,255,255,0.07)] p-10 text-center transition-transform duration-300;
+}
+
+.price-card:hover {
+  @apply -translate-y-1;
+}
+
+.price-card.featured {
+  @apply border-(--gold) bg-(--gold);
+}
+
+.price-label {
+  @apply mb-[0.8rem] text-[rgba(255,255,255,0.6)] text-xs font-semibold
+    tracking-widest uppercase;
+}
+
+.price-card.featured .price-label {
+  @apply text-[rgba(26,77,46,0.7)];
+}
+
+.price-amount {
+  @apply text-(--white) text-5xl font-bold leading-none;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.price-card.featured .price-amount {
+  @apply text-(--green);
+}
+
+.price-currency {
+  @apply mt-2 inline-block text-[1.2rem] align-top;
+}
+
+.price-period {
+  @apply mt-2 mb-6 text-[rgba(255,255,255,0.5)] text-[0.85rem];
+}
+
+.price-card.featured .price-period {
+  @apply text-[rgba(26,77,46,0.6)];
+}
+
+.price-badge {
+  @apply mb-6 inline-block rounded-[50px] bg-[rgba(255,255,255,0.15)]
+    px-[0.8rem] py-[0.3rem] text-(--white) text-[0.7rem]
+    font-semibold tracking-[0.06em] uppercase;
+}
+
+.price-card.featured .price-badge {
+  @apply bg-[rgba(26,77,46,0.15)] text-(--green);
+}
+
+.price-features {
+  @apply mb-8 list-none text-left;
+}
+
+.price-features li {
+  @apply flex gap-[0.6rem] py-2 text-[rgba(255,255,255,0.75)] text-sm;
+}
+
+.price-card.featured .price-features li {
+  @apply text-[rgba(26,77,46,0.8)];
+}
+
+.price-features li::before {
+  @apply text-(--green-light) font-bold;
+  content: "✓";
+}
+
+.price-card.featured .price-features li::before {
+  @apply text-(--green);
+}
+
+.btn-enroll {
+  @apply w-full cursor-pointer rounded-[50px] bg-(--white) p-[0.9rem]
+    text-(--green) text-base font-semibold transition-[transform,opacity] duration-200;
+}
+
+.price-card.featured .btn-enroll {
+  @apply bg-(--green) text-(--white);
+}
+
+.btn-enroll:hover {
+  @apply -translate-y-px opacity-90;
+}
+
+#testimonials {
+  @apply bg-(--grey);
+}
+
+.testi-header {
+  @apply mb-14;
+}
+
+.testi-grid {
+  @apply mx-auto grid max-w-275 grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6;
+}
+
+.testi-card {
+  @apply rounded-[20px] border border-(--grey-mid) bg-(--white) p-8;
+}
+
+.testi-card:hover {
+  @apply -translate-y-1;
+}
+
+.testi-stars {
+  @apply mb-4 text-(--gold) text-base tracking-widest;
+}
+
+.testi-text {
+  @apply mb-6 text-(--grey-dark) text-[0.95rem] italic leading-[1.7];
+}
+
+.testi-author {
+  @apply flex items-center gap-[0.8rem];
+}
+
+.testi-avatar {
+  @apply flex h-10 w-10 items-center justify-center rounded-full
+    bg-(--green) text-(--white) text-[0.9rem] font-bold;
+}
+
+.testi-name {
+  @apply text-(--green) text-[0.9rem] font-semibold;
+}
+
+.testi-loc {
+  @apply text-(--grey-dark) text-[0.8rem];
+}
+
+#enroll {
+  @apply bg-(--white);
+}
+
+.enroll-inner {
+  @apply mx-auto max-w-170 text-center;
+}
+
+.enroll-inner .section-sub {
+  @apply mx-auto mb-12;
+}
+
+.enroll-form {
+  @apply rounded-3xl border border-(--grey-mid) bg-(--grey) p-10 text-left;
+}
+
+.form-row {
+  @apply mb-4 grid grid-cols-2 gap-4;
+}
+
+.form-group {
+  @apply mb-4 flex flex-col gap-[0.4rem];
+}
+
+.form-group label,
+.plan-label {
+  @apply text-(--green) text-[0.8rem] font-semibold tracking-[0.04em] uppercase;
+}
+
+.plan-label {
+  @apply mb-[0.8rem] block;
+}
+
+.form-group input,
+.form-group select {
+  @apply rounded-xl border border-(--grey-mid) bg-(--white)
+    px-4 py-[0.8rem] text-(--text) outline-none transition-colors duration-200;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  @apply border-(--green);
+}
+
+.plan-toggle {
+  @apply mb-6 grid grid-cols-2 gap-[0.8rem];
+}
+
+.plan-option {
+  @apply cursor-pointer rounded-[14px] border-[1.5px] border-(--grey-mid)
+    bg-transparent p-4 text-center transition-all duration-200;
+}
+
+.plan-option.active {
+  @apply border-(--green) bg-[rgba(26,77,46,0.05)];
+}
+
+.plan-option h5 {
+  @apply mb-[0.2rem] text-(--green) text-[0.9rem];
+}
+
+.plan-option .plan-price {
+  @apply text-(--text) text-2xl;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.plan-option .plan-note {
+  @apply text-(--grey-dark) text-[0.7rem];
+}
+
+.btn-submit {
+  @apply mt-2 w-full cursor-pointer rounded-[50px] bg-(--green) p-[1.1rem]
+    text-(--white) text-base font-semibold tracking-[0.02em]
+    shadow-[0_4px_20px_rgba(26,77,46,0.3)] transition-[transform,box-shadow] duration-200;
+}
+
+.btn-submit:hover {
+  @apply -translate-y-0.5 shadow-[0_8px_30px_rgba(26,77,46,0.4)];
+}
+
+.secure-note {
+  @apply mt-4 flex items-center justify-center gap-[0.4rem] text-center
+    text-(--grey-dark) text-[0.8rem];
+}
+
+#faq {
+  @apply bg-(--grey);
+}
+
+.faq-inner {
+  @apply mx-auto max-w-175;
+}
+
+.faq-header {
+  @apply mb-12;
+}
+
+.faq-item {
+  @apply mb-4 overflow-hidden rounded-2xl border border-(--grey-mid)
+    bg-(--white);
+}
+
+.faq-q {
+  @apply flex w-full cursor-pointer items-center justify-between bg-transparent
+    px-6 py-[1.3rem] text-left text-(--green) text-[0.95rem]
+    font-semibold transition-colors duration-200;
+}
+
+.faq-q:hover {
+  @apply bg-(--grey);
+}
+
+.faq-icon {
+  @apply text-(--gold) text-[1.2rem] transition-transform duration-300;
+}
+
+.faq-item.open .faq-icon {
+  @apply rotate-45;
+}
+
+.faq-a {
+  @apply max-h-0 overflow-hidden px-6 py-0 text-(--grey-dark) text-[0.9rem]
+    leading-[1.7] transition-[max-height,padding] duration-[0.4s];
+}
+
+.faq-item.open .faq-a {
+  @apply max-h-50 px-6 pt-0 pb-[1.3rem];
+}
+
+footer {
+  @apply bg-(--green) px-[5%] pt-16 pb-8 text-[rgba(255,255,255,0.7)];
+}
+
+.footer-grid {
+  @apply mb-5 grid grid-cols-[2fr_2fr] gap-12;
+}
+
+.footer-brand .nav-logo {
+  @apply mb-4 block text-(--white);
+}
+
+.footer-brand p {
+  @apply text-sm leading-[1.7];
+}
+
+.footer-brand .arabic {
+  @apply mb-2 text-(--gold-light) text-[1.1rem];
+  font-family: "Amiri", serif;
+}
+
+.footer-col h5 {
+  @apply mb-[1.2rem] text-(--white) text-[0.8rem] font-semibold
+    tracking-widest uppercase;
+}
+
+.footer-col ul {
+  @apply flex list-none flex-col gap-[0.6rem];
+}
+
+.footer-col a {
+  @apply text-[rgba(255,255,255,0.6)] text-sm no-underline transition-colors duration-200;
+}
+
+.footer-col a:hover {
+  @apply text-(--gold-light);
+}
+
+.footer-bum span {
+  @apply py-3 pr-3 pl-0;
+}
+
+.footer-bottom {
+  @apply flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(255,255,255,0.1)]
+    pt-3 text-[0.8rem];
+}
+
+.footer-dua {
+  @apply text-(--white) text-base;
+  font-family: "Amiri", serif;
+}
+
+.modal-overlay {
+  @apply fixed inset-0 z-999 hidden items-center justify-center bg-[rgba(0,0,0,0.6)]
+    p-4 backdrop-blur-[6px];
+}
+
+.modal-overlay.show {
+  @apply flex;
+}
+
+.modal {
+  @apply relative w-full max-w-140 rounded-3xl bg-(--white) p-12 text-center
+    animate-[popIn_0.4s_ease];
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-close {
+  @apply absolute right-[1.2rem] top-4 cursor-pointer bg-transparent
+    text-(--grey-dark) text-2xl;
+}
+
+.modal-icon {
+  @apply mb-4 text-5xl;
+}
+
+.modal h2 {
+  @apply mb-2 text-(--green) text-3xl;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.modal .arabic {
+  @apply mb-4 text-(--gold) text-[1.2rem];
+  font-family: "Amiri", serif;
+}
+
+.modal p {
+  @apply mb-8 text-(--grey-dark) text-[0.95rem] leading-[1.7];
+}
+
+.modal-steps {
+  @apply mb-8 flex flex-col gap-4 text-left;
+}
+
+.modal-step {
+  @apply flex items-start gap-4 rounded-xl bg-(--grey) p-4;
+}
+
+.modal-step-num {
+  @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full
+    bg-(--green) text-(--white) text-[0.85rem] font-bold;
+}
+
+.modal-step h5 {
+  @apply mb-[0.2rem] text-(--green) text-[0.9rem];
+}
+
+.modal-step p {
+  @apply m-0 text-(--grey-dark) text-[0.8rem] leading-normal;
+}
+
+.modal-wa {
+  @apply block w-full cursor-pointer rounded-[50px] bg-[#25d366] p-[0.9rem]
+    text-(--white) text-base font-semibold no-underline transition-opacity duration-200;
+}
+
+.modal-wa:hover {
+  @apply opacity-90;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    @apply fixed left-0 right-0 top-17.5 z-99 hidden flex-col bg-(--white)
+      px-[5%] py-6 shadow-[0_10px_30px_rgba(0,0,0,0.1)];
+  }
+
+  .nav-links.open {
+    @apply flex;
+  }
+
+  .hamburger {
+    @apply flex;
+  }
+
+  .hero-stats {
+    @apply flex-wrap gap-6;
+  }
+
+  .why-grid {
+    @apply grid-cols-1 gap-8;
+  }
+
+  .why-visual {
+    @apply hidden;
+  }
+
+  .form-row,
+  .pricing-cards,
+  .footer-grid {
+    @apply grid-cols-1;
+  }
+
+  .footer-grid {
+    @apply gap-8;
+  }
+
+  .footer-bottom {
+    @apply flex-col text-center;
+  }
+
+  .how-steps::before {
+    @apply left-6.25;
+  }
+}
+
+.enroll-bum {
+  @apply mt-10;
+}
+
+.enroll-start {
+  @apply p-5;
+}
+
+.enroll-steps {
+  @apply p-2;
+}
