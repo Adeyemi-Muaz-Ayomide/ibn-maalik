@@ -9,16 +9,16 @@ const PLANS = {
     label: "Group Classes",
     description:
       "Learn with other students in a structured and motivating environment.",
-    monthly: 9999,
-    semester: 24999,
+    monthly: 10000,
+    semester: 25000,
   },
 
   private: {
     label: "Private Classes ✨",
     description:
       "1-on-1 personalized sessions, faster progress, direct teacher access, and flexible scheduling.",
-    monthly: 19999,
-    semester: 59999,
+    monthly: 20000,
+    semester: 55000,
   },
 };
 
@@ -79,47 +79,104 @@ export default function EnrollModal() {
     return true;
   }
 
+  //   async function handlePayment() {
+  //     const { name, email, country, level, phone } = formData;
+  //     // const { default: PaystackPop } = await import("@paystack/inline-js");
+
+  //     if (!validate()) return;
+
+  //     const { error } = await supabase.from("enrollments").insert([
+  //       {
+  //         name: formData.name,
+  //         email: formData.email,
+  //         country: formData.country,
+  //         level: formData.level,
+  //         phone: formData.phone,
+  //         class_type: selectedType,
+  //         plan: selectedPlan,
+  //         amount: amount,
+  //         payment_status: "pending",
+  //       },
+  //     ]);
+
+  //     if (error) {
+  //       console.error(error);
+  //       alert(error.message);
+  //       return;
+  //     }
+
+  //     // alert("Enrollment submitted successfully!");
+
+  //     const popup = new PaystackPop();
+
+  //     popup.newTransaction({
+  //       key: process.env.NEXT_PUBLIC_PAYSTACK_KEY,
+
+  //       email,
+
+  //       amount: amount * 100,
+
+  //       currency: "NGN",
+
+  //       reference: `IMI-${Date.now()}`,
+
+  //       metadata: {
+  //         custom_fields: [
+  //           {
+  //             display_name: "Student Name",
+  //             variable_name: "student_name",
+  //             value: name,
+  //           },
+  //           // {
+  //           //   display_name: "Phone Number",
+  //           //   variable_name: "phone",
+  //           //   value: phone,
+  //           // },
+  //           {
+  //             display_name: "Level",
+  //             variable_name: "level",
+  //             value: level,
+  //           },
+  //           {
+  //             display_name: "Class Type",
+  //             variable_name: "class_type",
+  //             value: selectedType,
+  //           },
+  //         ],
+  //       },
+
+  //       onSuccess: async (transaction) => {
+  //         alert("Payment successful 🎉");
+  //         window.location.href =
+  //           "https://wa.me/2347084605347?text=I%20just%20completed%20my%20payment";
+
+  //         console.log(transaction);
+
+  //         // OPTIONAL:
+  //         // Update DB payment status here
+  //       },
+
+  //       onCancel: () => {
+  //         alert("Transaction cancelled");
+  //       },
+  //     });
+  //   }
+
   async function handlePayment() {
     const { name, email, country, level, phone } = formData;
-    // const { default: PaystackPop } = await import("@paystack/inline-js");
 
     if (!validate()) return;
 
-    const { error } = await supabase.from("enrollments").insert([
-      {
-        name: formData.name,
-        email: formData.email,
-        country: formData.country,
-        level: formData.level,
-        phone: formData.phone,
-        class_type: selectedType,
-        plan: selectedPlan,
-        amount: amount,
-        payment_status: "pending",
-      },
-    ]);
-
-    if (error) {
-      console.error(error);
-      alert(error.message);
-      return;
-    }
-
-    // alert("Enrollment submitted successfully!");
+    const reference = `IMI-${Date.now()}`;
 
     const popup = new PaystackPop();
 
     popup.newTransaction({
       key: process.env.NEXT_PUBLIC_PAYSTACK_KEY,
-
       email,
-
       amount: amount * 100,
-
       currency: "NGN",
-
-      reference: `IMI-${Date.now()}`,
-
+      reference,
       metadata: {
         custom_fields: [
           {
@@ -127,16 +184,7 @@ export default function EnrollModal() {
             variable_name: "student_name",
             value: name,
           },
-          // {
-          //   display_name: "Phone Number",
-          //   variable_name: "phone",
-          //   value: phone,
-          // },
-          {
-            display_name: "Level",
-            variable_name: "level",
-            value: level,
-          },
+          { display_name: "Level", variable_name: "level", value: level },
           {
             display_name: "Class Type",
             variable_name: "class_type",
@@ -146,18 +194,39 @@ export default function EnrollModal() {
       },
 
       onSuccess: async (transaction) => {
-        alert("Payment successful 🎉");
+        // 1. Save to DB only after confirmed payment
+        const { error } = await supabase.from("enrollments").insert([
+          {
+            name,
+            email,
+            country,
+            level,
+            phone,
+            class_type: selectedType,
+            plan: selectedPlan,
+            amount,
+            payment_status: "paid",
+            paystack_reference: transaction.reference,
+          },
+        ]);
+
+        if (error) {
+          console.error(error);
+          // Payment went through but DB failed — don't lose the reference
+          alert(
+            `Payment successful but record failed. Save this reference: ${transaction.reference}`,
+          );
+          return;
+        }
+
+        // 2. Redirect to WhatsApp after DB is saved
         window.location.href =
-          "https://wa.me/2347084605347?text=I%20just%20completed%20my%20payment";
-
-        console.log(transaction);
-
-        // OPTIONAL:
-        // Update DB payment status here
+          "https://wa.me/2347084605347?text=I%20just%20completed%20my%20payment%20-%20Ref:%20" +
+          transaction.reference;
       },
 
       onCancel: () => {
-        alert("Transaction cancelled");
+        setError("Transaction was cancelled. You can try again.");
       },
     });
   }
